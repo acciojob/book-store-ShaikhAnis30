@@ -15,7 +15,7 @@ public class BookController {
 
     // One example controller, make the rest by yourself
     @PostMapping("/create-book")
-    public ResponseEntity createBook(@RequestBody Book book){
+    public ResponseEntity createBook(@RequestBody Book book) {
         Book response = bookService.createBook(book);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -23,11 +23,14 @@ public class BookController {
     @GetMapping("/get-book-by-id/{id}")
     public ResponseEntity findBookById(@PathVariable("id") int id) {
         Book response = bookService.findBookById(id);
-        return new ResponseEntity<>(response, HttpStatus.FOUND);
+        if(response != null)
+            return new ResponseEntity<>(response, HttpStatus.FOUND);
+        else
+            return new ResponseEntity<>("No book found", HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/get-all-books")
-    public ResponseEntity findAll(){
+    public ResponseEntity findAll() {
         List<Book> response = bookService.findAll();
         return new ResponseEntity<>(response, HttpStatus.FOUND);
     }
@@ -35,8 +38,11 @@ public class BookController {
 
     @DeleteMapping("/delete-book-by-id/{id}")
     public ResponseEntity deleteBookById(@PathVariable("id") int id) {
-        bookService.deleteBookById(id);
-        return new ResponseEntity<>("Book Deleted", HttpStatus.GONE);
+        String response = bookService.deleteBookById(id);
+        if(response != null)
+            return new ResponseEntity<>(response, HttpStatus.GONE);
+        else
+            return new ResponseEntity<>("Book Not Present", HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/delete-all-books")

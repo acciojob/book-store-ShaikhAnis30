@@ -19,8 +19,8 @@ public class BookService {
         return bookRepository.findBookById(id);
     }
 
-    public void deleteBookById(int id){
-        bookRepository.deleteBookById(id);
+    public String deleteBookById(int id){
+        return bookRepository.deleteBookById(id);
     }
 
     public List<Book> findAll(){

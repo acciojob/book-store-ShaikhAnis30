@@ -26,7 +26,10 @@ public class BookRepository {
     }
 
     public Book findBookById(int id){
-        return db.get(id);
+        if(db.containsKey(id)) {
+            return db.get(id);
+        }
+        return null;
     }
 
     public List<Book> findAll(){
@@ -38,16 +41,16 @@ public class BookRepository {
 //        return bookList;
     }
 
-    public void deleteBookById(int id){
+    public String deleteBookById(int id){
         if(db.containsKey(id)) {
             db.remove(id);
-        }
+            return "Book Deleted";
+        }else
+            return null;
     }
 
     public void deleteAll(){
-        for (Book book : db.values()) {
-            db.remove(book);
-        }
+        db.clear();
     }
 
     public List<Book> findBooksByAuthor(String author){
